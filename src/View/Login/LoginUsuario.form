@@ -69,7 +69,7 @@
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="TFLoginEmail" min="-2" pref="231" max="-2" attributes="0"/>
-                                      <Component id="JPFSenhaLogin" max="32767" attributes="0"/>
+                                      <Component id="PFLoginSenha" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -80,7 +80,7 @@
                           <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="ButtonLimpar" alignment="1" min="-2" pref="75" max="-2" attributes="0"/>
-                              <Component id="ButtonCancelar" min="-2" pref="75" max="-2" attributes="0"/>
+                              <Component id="ButtonEntrar" min="-2" pref="75" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="ButtonSair" alignment="1" min="-2" pref="75" max="-2" attributes="0"/>
@@ -98,13 +98,13 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="TFLoginEmail" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="ButtonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ButtonEntrar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="ButtonLimpar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="JPFSenhaLogin" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="PFLoginSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="89" max="32767" attributes="0"/>
                   <Component id="ButtonSair" min="-2" max="-2" attributes="0"/>
@@ -169,14 +169,20 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Limpar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonLimparActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonCancelar">
+        <Component class="javax.swing.JButton" name="ButtonEntrar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="14" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Entrar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonEntrarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ButtonSair">
           <Properties>
@@ -185,8 +191,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Sair"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonSairActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="JPFSenhaLogin">
+        <Component class="javax.swing.JPasswordField" name="PFLoginSenha">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>

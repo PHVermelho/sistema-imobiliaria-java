@@ -18,6 +18,7 @@ public class Usuario {
     private String senha;
     private String tipo;
     private LocalDate dataAdmissao;
+    private int idAdministrador;
 
     public Usuario() {
     }
@@ -30,6 +31,7 @@ public class Usuario {
         this.senha = senha;
         this.tipo = tipo;
         this.dataAdmissao = dataAdmissao;
+        this.idAdministrador = idAdministrador;
     }
 
     public int getIdUsuario() {
@@ -87,4 +89,12 @@ public class Usuario {
     public void setDataAdmissao(LocalDate dataAdmissao) {
         this.dataAdmissao = dataAdmissao;
     }   
+
+    public int getIdAdministrador() {
+        return idAdministrador;
+    }
+
+    public void setIdAdministrador(int idAdministrador) {
+        this.idAdministrador = idAdministrador;
+    }
 }

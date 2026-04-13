@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.Usuario;
+package View.Usuario.CadastroUsuario;
 
 import DAO.UsuarioDAO;
 import Model.Usuario;
@@ -297,7 +297,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
             } else {
                 usuario.setTipo("ADMINISTRADOR");
             }
-           
+
             try {
                 LocalDate data = LocalDate.parse(dataTela, formatoTela);
                 usuario.setDataAdmissao(data);
@@ -310,14 +310,15 @@ public class CadastroUsuario extends javax.swing.JFrame {
             dao.cadastrarUsuario(usuario);
 
             JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-            
+
             limpar();
         } catch (Exception e) {
-            System.out.println("Erro ao cadastrar usuário" + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
         }
     }//GEN-LAST:event_ButtonCadastrarActionPerformed
 
-    public void limpar(){
+    public void limpar() {
         TFNome.setText("");
         TFEmail.setText("");
         FTFTelefone.setText("");
@@ -326,7 +327,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
         FTFDataAdmissao.setText("");
     }
-    
+
     /**
      * @param args the command line arguments
      */

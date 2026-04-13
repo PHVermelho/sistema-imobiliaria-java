@@ -9,7 +9,9 @@ create table Usuario(
     telefone varchar(20) not null,
     senha varchar(100) not null,
     tipo enum('ADMINISTRADOR', 'CORRETOR') not null,
-    data_admissao date not null
+    data_admissao date not null,
+    id_administrador int,
+    foreign key (id_administrador) references Usuario(id_administrador)
 );
 
 create table Cliente(
@@ -42,3 +44,7 @@ create table contrato(
     foreign key (id_imovel) references Imovel(id_imovel),
     foreign key (id_usuario) references Usuario(id_usuario)
 );
+
+select * from Usuario;
+
+alter table Usuario add id_administrador int;

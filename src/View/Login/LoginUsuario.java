@@ -4,12 +4,16 @@
  */
 package View.Login;
 
+import DAO.UsuarioDAO;
+import Model.Usuario;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Pedro Henrique
  */
 public class LoginUsuario extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginUsuario.class.getName());
 
     /**
@@ -34,9 +38,9 @@ public class LoginUsuario extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         TFLoginEmail = new javax.swing.JTextField();
         ButtonLimpar = new javax.swing.JButton();
-        ButtonCancelar = new javax.swing.JButton();
+        ButtonEntrar = new javax.swing.JButton();
         ButtonSair = new javax.swing.JButton();
-        JPFSenhaLogin = new javax.swing.JPasswordField();
+        PFLoginSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,17 +65,20 @@ public class LoginUsuario extends javax.swing.JFrame {
 
         ButtonLimpar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         ButtonLimpar.setText("Limpar");
+        ButtonLimpar.addActionListener(this::ButtonLimparActionPerformed);
 
-        ButtonCancelar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        ButtonCancelar.setText("Entrar");
+        ButtonEntrar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ButtonEntrar.setText("Entrar");
+        ButtonEntrar.addActionListener(this::ButtonEntrarActionPerformed);
 
         ButtonSair.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         ButtonSair.setText("Sair");
+        ButtonSair.addActionListener(this::ButtonSairActionPerformed);
 
-        JPFSenhaLogin.setBackground(new java.awt.Color(255, 255, 255));
-        JPFSenhaLogin.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        JPFSenhaLogin.setForeground(new java.awt.Color(51, 51, 51));
-        JPFSenhaLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PFLoginSenha.setBackground(new java.awt.Color(255, 255, 255));
+        PFLoginSenha.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        PFLoginSenha.setForeground(new java.awt.Color(51, 51, 51));
+        PFLoginSenha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -89,14 +96,14 @@ public class LoginUsuario extends javax.swing.JFrame {
                                 .addGap(33, 33, 33)
                                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(TFLoginEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(JPFSenhaLogin)))
+                                    .addComponent(PFLoginSenha)))
                             .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(164, 164, 164)
                                 .addComponent(jLabel2)))
                         .addGap(69, 69, 69)
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(ButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ButtonEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(ButtonSair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
@@ -109,12 +116,12 @@ public class LoginUsuario extends javax.swing.JFrame {
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(TFLoginEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonCancelar))
+                    .addComponent(ButtonEntrar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(ButtonLimpar)
-                    .addComponent(JPFSenhaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PFLoginSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addComponent(ButtonSair)
                 .addGap(69, 69, 69))
@@ -140,6 +147,35 @@ public class LoginUsuario extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEntrarActionPerformed
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        String email = TFLoginEmail.getText();
+        String senha = new String(PFLoginSenha.getPassword());
+
+        try {
+            if (email.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+                return;
+            } else {
+                usuarioDAO.login(email, senha);
+                this.dispose(); //fechando a tela quando faz login
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
+        }
+    }//GEN-LAST:event_ButtonEntrarActionPerformed
+
+    private void ButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimparActionPerformed
+        TFLoginEmail.setText("");
+        PFLoginSenha.setText("");
+    }//GEN-LAST:event_ButtonLimparActionPerformed
+
+    private void ButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_ButtonSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,10 +203,10 @@ public class LoginUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonCancelar;
+    private javax.swing.JButton ButtonEntrar;
     private javax.swing.JButton ButtonLimpar;
     private javax.swing.JButton ButtonSair;
-    private javax.swing.JPasswordField JPFSenhaLogin;
+    private javax.swing.JPasswordField PFLoginSenha;
     private javax.swing.JTextField TFLoginEmail;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

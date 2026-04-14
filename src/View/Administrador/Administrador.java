@@ -4,10 +4,18 @@
  */
 package View.Administrador;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Panel;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -29,11 +37,15 @@ public class Administrador extends javax.swing.JFrame {
         layout = new CardLayout();
         painelPrincipal.setLayout(layout);
 
+        painelPrincipal.add(spInicial, "inicial");
         painelPrincipal.add(spCorretores, "corretores");
         painelPrincipal.add(spClientes, "clientes");
         painelPrincipal.add(spImoveis, "imoveis");
         painelPrincipal.add(spContratos, "contratos");
 
+        layout.show(painelPrincipal, "inicial");
+
+        setSize(new Dimension(900, 785));
     }
 
     /**
@@ -45,6 +57,8 @@ public class Administrador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        spInicial = new javax.swing.JScrollPane();
+        panelInicial = new javax.swing.JPanel();
         spCorretores = new javax.swing.JScrollPane();
         tableCorretores = new javax.swing.JTable();
         spClientes = new javax.swing.JScrollPane();
@@ -61,9 +75,36 @@ public class Administrador extends javax.swing.JFrame {
         buttonLContratos = new javax.swing.JButton();
         Button5 = new javax.swing.JButton();
         painelPrincipal = new javax.swing.JPanel();
+        labelNomeTitulo = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout panelInicialLayout = new javax.swing.GroupLayout(panelInicial);
+        panelInicial.setLayout(panelInicialLayout);
+        panelInicialLayout.setHorizontalGroup(
+            panelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        panelInicialLayout.setVerticalGroup(
+            panelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        spInicial.setViewportView(panelInicial);
 
         tableCorretores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -106,15 +147,23 @@ public class Administrador extends javax.swing.JFrame {
 
         tableImoveis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "TÍTULO", "ENDEREÇO", "DESCRIÇÃO", "TIPO", "PREÇO", "INTENÇÃO", "STATUS"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         spImoveis.setViewportView(tableImoveis);
 
         tableContratos.setModel(new javax.swing.table.DefaultTableModel(
@@ -168,6 +217,10 @@ public class Administrador extends javax.swing.JFrame {
             .addGap(0, 219, Short.MAX_VALUE)
         );
 
+        labelNomeTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        labelNomeTitulo.setForeground(new java.awt.Color(0, 0, 0));
+        labelNomeTitulo.setText("Administrador");
+
         javax.swing.GroupLayout PainelPrincipalLayout = new javax.swing.GroupLayout(PainelPrincipal);
         PainelPrincipal.setLayout(PainelPrincipalLayout);
         PainelPrincipalLayout.setHorizontalGroup(
@@ -183,13 +236,16 @@ public class Administrador extends javax.swing.JFrame {
                 .addGap(48, 48, 48))
             .addGroup(PainelPrincipalLayout.createSequentialGroup()
                 .addGap(177, 177, 177)
-                .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelNomeTitulo)
+                    .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                        .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(182, Short.MAX_VALUE))
         );
         PainelPrincipalLayout.setVerticalGroup(
@@ -198,7 +254,8 @@ public class Administrador extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(Button5))
+                    .addComponent(Button5)
+                    .addComponent(labelNomeTitulo))
                 .addGap(62, 62, 62)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonLCorretores)
@@ -206,7 +263,7 @@ public class Administrador extends javax.swing.JFrame {
                     .addComponent(buttonLImoveis)
                     .addComponent(buttonLContratos))
                 .addGap(36, 36, 36)
-                .addComponent(painelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(106, Short.MAX_VALUE))
         );
 
@@ -227,7 +284,8 @@ public class Administrador extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(987, 568));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonLCorretoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLCorretoresActionPerformed
@@ -279,11 +337,14 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JButton buttonLCorretores;
     private javax.swing.JButton buttonLImoveis;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelNomeTitulo;
     private javax.swing.JPanel painelPrincipal;
+    private javax.swing.JPanel panelInicial;
     private javax.swing.JScrollPane spClientes;
     private javax.swing.JScrollPane spContratos;
     private javax.swing.JScrollPane spCorretores;
     private javax.swing.JScrollPane spImoveis;
+    private javax.swing.JScrollPane spInicial;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTable tableContratos;
     private javax.swing.JTable tableCorretores;

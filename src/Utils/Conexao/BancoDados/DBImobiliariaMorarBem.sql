@@ -2,56 +2,59 @@ create database DBImobiliariaMorarBem;
 
 use DBImobiliariaMorarBem;
 
-create table usuario(
-	id_usuario int primary key auto_increment,
+create table funcionario(
+	id_funcionario int primary key auto_increment,
     nome varchar(100) not null,
     email varchar(50) not null,
     telefone varchar(20) not null,
     senha varchar(100) not null,
     tipo enum('ADMINISTRADOR', 'CORRETOR') not null,
-    data_admissao date not null,
     id_administrador int,
-    foreign key (id_administrador) references Usuario(id_administrador)
+    foreign key (id_administrador) references funcionario(id_funcionario)
 );
 
 create table cliente(
 	id_cliente int primary key auto_increment,
     nome varchar(100) not null,
+    cpf varchar(20),
     email varchar(50) not null,
-    telefone varchar(20) not null
+    telefone varchar(20) not null,
+    id_funcionario int,
+    foreign key (id_funcionario) references funcionario(id_funcionario)
 );
 
 create table imovel(
 	id_imovel int primary key auto_increment,
-    titulo varchar(255) not null,
     endereco varchar(100) not null,
     descricao varchar(255) not null,
     tipo enum('CASA', 'APARTAMENTO', 'LOJA', 'GALPÃO', 'PREDIO COMERCIAL') not null,
     preco decimal(10,2) not null,
     intencao enum('VENDA', 'ALUGUEL'),
     status_imovel enum('DISPONIVEL', 'VENDIDO', 'ALUGADO') not null,
-    id_cliente int,
-    foreign key (id_cliente) references cliente(id_cliente)
+    id_proprietario int,
+    foreign key (id_proprietario) references cliente(id_cliente)
 );
 
 create table contrato(
 	id_contrato int primary key auto_increment,
-    id_cliente int,
+    id_funcionario int,
     id_imovel int,
-    id_usuario int,
+    id_vendendor int,
+    id_comprador int,
     tipo enum('VENDA', 'ALUGUEL') not null,
     preco decimal(10,2) not null,
     data_inicio date not null,
     data_fim date,
-    foreign key (id_cliente) references cliente(id_cliente),
+    foreign key (id_funcionario) references funcionario(id_funcionario),
     foreign key (id_imovel) references imovel(id_imovel),
-    foreign key (id_usuario) references usuario(id_usuario)
+    foreign key (id_comprador) references cliente(id_cliente),
+    foreign key (id_vendedor) references cliente(id_cliente)
 );
 
-select * from Usuario;
+select * from funcionario;
 
-select * from Imovel;
+select * from cliente;
 
-alter table Usuario add id_administrador int;
+select * from imovel;
 
-alter table Imovel add intencao varchar(20);
+select * from contrato;

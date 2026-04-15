@@ -4,22 +4,22 @@
  */
 package View.Login;
 
-import DAO.UsuarioDAO;
-import Model.Usuario;
+import DAO.FuncionarioDAO;
+import Model.Funcionario;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Pedro Henrique
  */
-public class LoginUsuario extends javax.swing.JFrame {
+public class LoginFuncionario extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginUsuario.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFuncionario.class.getName());
 
     /**
      * Creates new form LoginUsuario
      */
-    public LoginUsuario() {
+    public LoginFuncionario() {
         initComponents();
     }
 
@@ -150,7 +150,7 @@ public class LoginUsuario extends javax.swing.JFrame {
 
     private void ButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEntrarActionPerformed
 
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         String email = TFLoginEmail.getText();
         String senha = new String(PFLoginSenha.getPassword());
 
@@ -159,7 +159,7 @@ public class LoginUsuario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
                 return;
             } else {
-                usuarioDAO.login(email, senha);
+                funcionarioDAO.login(email, senha);
                 this.dispose(); //fechando a tela quando faz login
             }
         } catch (Exception e) {
@@ -199,7 +199,7 @@ public class LoginUsuario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LoginUsuario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new LoginFuncionario().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

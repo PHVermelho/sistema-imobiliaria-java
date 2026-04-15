@@ -4,6 +4,7 @@
  */
 package View.Administrador;
 
+import View.CadastroFuncionario.CadastroFuncionario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -34,6 +35,9 @@ public class Administrador extends javax.swing.JFrame {
     public Administrador() {
         initComponents();
 
+        Dimension dimension = new Dimension();
+        dimension.setSize(800, 300);
+        
         layout = new CardLayout();
         painelPrincipal.setLayout(layout);
 
@@ -42,10 +46,11 @@ public class Administrador extends javax.swing.JFrame {
         painelPrincipal.add(spClientes, "clientes");
         painelPrincipal.add(spImoveis, "imoveis");
         painelPrincipal.add(spContratos, "contratos");
-
         layout.show(painelPrincipal, "inicial");
-
-        setSize(new Dimension(900, 785));
+        
+        PainelPrincipal.setSize(990, 700);
+        painelPrincipal.setPreferredSize(dimension);
+        setSize(new Dimension(1000, 736));
     }
 
     /**
@@ -73,9 +78,12 @@ public class Administrador extends javax.swing.JFrame {
         buttonLClientes = new javax.swing.JButton();
         buttonLImoveis = new javax.swing.JButton();
         buttonLContratos = new javax.swing.JButton();
-        Button5 = new javax.swing.JButton();
+        buttonNovoFuncionario = new javax.swing.JButton();
         painelPrincipal = new javax.swing.JPanel();
         labelNomeTitulo = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        buttonSair = new javax.swing.JButton();
 
         javax.swing.GroupLayout panelInicialLayout = new javax.swing.GroupLayout(panelInicial);
         panelInicial.setLayout(panelInicialLayout);
@@ -204,7 +212,8 @@ public class Administrador extends javax.swing.JFrame {
         buttonLContratos.setText("Lista Contratos");
         buttonLContratos.addActionListener(this::buttonLContratosActionPerformed);
 
-        Button5.setText("Novo Funcionário");
+        buttonNovoFuncionario.setText("Novo Funcionário");
+        buttonNovoFuncionario.addActionListener(this::buttonNovoFuncionarioActionPerformed);
 
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
@@ -214,12 +223,20 @@ public class Administrador extends javax.swing.JFrame {
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 219, Short.MAX_VALUE)
+            .addGap(0, 309, Short.MAX_VALUE)
         );
 
         labelNomeTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         labelNomeTitulo.setForeground(new java.awt.Color(0, 0, 0));
         labelNomeTitulo.setText("Administrador");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Busca Personalizada:");
+
+        buttonSair.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        buttonSair.setText("Sair");
+        buttonSair.addActionListener(this::buttonSairActionPerformed);
 
         javax.swing.GroupLayout PainelPrincipalLayout = new javax.swing.GroupLayout(PainelPrincipal);
         PainelPrincipal.setLayout(PainelPrincipalLayout);
@@ -227,26 +244,37 @@ public class Administrador extends javax.swing.JFrame {
             PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelPrincipalLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(painelPrincipal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Button5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(48, 48, 48))
-            .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                .addGap(177, 177, 177)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNomeTitulo)
                     .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                        .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(182, Short.MAX_VALUE))
+                        .addGap(136, 136, 136)
+                        .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelNomeTitulo)
+                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                                .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                        .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelPrincipalLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonNovoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 51, Short.MAX_VALUE)))
+                        .addGap(48, 48, 48))))
         );
         PainelPrincipalLayout.setVerticalGroup(
             PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,7 +282,7 @@ public class Administrador extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(Button5)
+                    .addComponent(buttonNovoFuncionario)
                     .addComponent(labelNomeTitulo))
                 .addGap(62, 62, 62)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -262,9 +290,15 @@ public class Administrador extends javax.swing.JFrame {
                     .addComponent(buttonLClientes)
                     .addComponent(buttonLImoveis)
                     .addComponent(buttonLContratos))
-                .addGap(36, 36, 36)
-                .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(41, 41, 41)
+                .addComponent(painelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(buttonSair)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -284,7 +318,7 @@ public class Administrador extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(987, 568));
+        setSize(new java.awt.Dimension(987, 731));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -303,6 +337,15 @@ public class Administrador extends javax.swing.JFrame {
     private void buttonLContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLContratosActionPerformed
         layout.show(painelPrincipal, "contratos");
     }//GEN-LAST:event_buttonLContratosActionPerformed
+
+    private void buttonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_buttonSairActionPerformed
+
+    private void buttonNovoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNovoFuncionarioActionPerformed
+        CadastroFuncionario cadastroFuncionario = new CadastroFuncionario();
+        cadastroFuncionario.setVisible(true);
+    }//GEN-LAST:event_buttonNovoFuncionarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,13 +373,16 @@ public class Administrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Button5;
     private javax.swing.JPanel PainelPrincipal;
     private javax.swing.JButton buttonLClientes;
     private javax.swing.JButton buttonLContratos;
     private javax.swing.JButton buttonLCorretores;
     private javax.swing.JButton buttonLImoveis;
+    private javax.swing.JButton buttonNovoFuncionario;
+    private javax.swing.JButton buttonSair;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelNomeTitulo;
     private javax.swing.JPanel painelPrincipal;
     private javax.swing.JPanel panelInicial;

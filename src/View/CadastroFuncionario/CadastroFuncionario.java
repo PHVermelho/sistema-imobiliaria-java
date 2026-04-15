@@ -2,27 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.Usuario.CadastroUsuario;
+package View.CadastroFuncionario;
 
-import DAO.UsuarioDAO;
-import Model.Usuario;
+import DAO.FuncionarioDAO;
+import Model.Funcionario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 /**
  *
  * @author Pedro Henrique
  */
-public class CadastroUsuario extends javax.swing.JFrame {
+public class CadastroFuncionario extends javax.swing.JFrame {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroUsuario.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroFuncionario.class.getName());
 
     /**
      * Creates new form CadastroUsuario
      */
-    public CadastroUsuario() {
+    public CadastroFuncionario() {
         initComponents();
+        
+        // Desabilita redimensionamento (remove botão maximizar)
+        setResizable(false);
+        // Desabilita o fechamento padrão (remove ação do botão fechar)
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -46,8 +52,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         RBCorretor = new javax.swing.JRadioButton();
         RBAdm = new javax.swing.JRadioButton();
-        jLabel9 = new javax.swing.JLabel();
-        FTFDataAdmissao = new javax.swing.JFormattedTextField();
         PFConfSenha = new javax.swing.JPasswordField();
         PFSenha = new javax.swing.JPasswordField();
         FTFTelefone = new javax.swing.JFormattedTextField();
@@ -103,20 +107,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
         RBAdm.setForeground(new java.awt.Color(0, 0, 0));
         RBAdm.setText("Administrador");
 
-        jLabel9.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Data Admissão:");
-
-        FTFDataAdmissao.setBackground(new java.awt.Color(255, 255, 255));
-        FTFDataAdmissao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        FTFDataAdmissao.setForeground(new java.awt.Color(51, 51, 51));
-        try {
-            FTFDataAdmissao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        FTFDataAdmissao.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
         PFConfSenha.setBackground(new java.awt.Color(255, 255, 255));
         PFConfSenha.setForeground(new java.awt.Color(51, 51, 51));
         PFConfSenha.setToolTipText("");
@@ -156,6 +146,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
         ButtonSair.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         ButtonSair.setText("Sair");
+        ButtonSair.addActionListener(this::ButtonSairActionPerformed);
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -167,19 +158,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanelLayout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addGap(18, 18, 18)
-                            .addComponent(PFConfSenha))
-                        .addGroup(jPanelLayout.createSequentialGroup()
-                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel8)
-                                .addComponent(RBCorretor)
-                                .addComponent(RBAdm))
-                            .addGap(96, 96, 96)
-                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(FTFDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)))
-                        .addGroup(jPanelLayout.createSequentialGroup()
                             .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel5)
@@ -190,14 +168,26 @@ public class CadastroUsuario extends javax.swing.JFrame {
                                 .addComponent(TFNome)
                                 .addComponent(PFSenha)
                                 .addComponent(FTFTelefone)
-                                .addComponent(TFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(TFEmail)))
+                        .addGroup(jPanelLayout.createSequentialGroup()
+                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(PFConfSenha)
+                                .addGroup(jPanelLayout.createSequentialGroup()
+                                    .addComponent(RBCorretor)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(RBAdm)
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
                 .addGap(69, 69, 69)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ButtonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ButtonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(ButtonLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                    .addComponent(ButtonSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(55, 55, 55))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,14 +221,9 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RBCorretor)
-                    .addComponent(FTFDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(RBAdm)
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(RBAdm))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -264,13 +249,10 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
     private void ButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarActionPerformed
 
-        Usuario usuario = new Usuario();
+        Funcionario funcionario = new Funcionario();
 
         String senha = new String(PFSenha.getPassword());
         String confSenha = new String(PFConfSenha.getPassword());
-        String dataTela = FTFDataAdmissao.getText();
-
-        DateTimeFormatter formatoTela = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         try {
             if (TFNome.getText().isEmpty() || TFEmail.getText().isEmpty()) {
@@ -287,29 +269,21 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Selecione o tipo de usuário!");
                 return;
             }
-            usuario.setNome(TFNome.getText());
-            usuario.setEmail(TFEmail.getText());
-            usuario.setTelefone(FTFTelefone.getText());
-            usuario.setSenha(senha);
+            funcionario.setNome(TFNome.getText());
+            funcionario.setEmail(TFEmail.getText());
+            funcionario.setTelefone(FTFTelefone.getText());
+            funcionario.setSenha(senha);
 
             if (RBCorretor.isSelected()) {
-                usuario.setTipo("CORRETOR");
+                funcionario.setCargo("CORRETOR");
             } else {
-                usuario.setTipo("ADMINISTRADOR");
+                funcionario.setCargo("ADMINISTRADOR");
             }
 
-            try {
-                LocalDate data = LocalDate.parse(dataTela, formatoTela);
-                usuario.setDataAdmissao(data);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Data inválida!");
-                return;
-            }
+            FuncionarioDAO dao = new FuncionarioDAO();
+            dao.cadastrarFuncionario(funcionario);
 
-            UsuarioDAO dao = new UsuarioDAO();
-            dao.cadastrarUsuario(usuario);
-
-            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
 
             limpar();
         } catch (Exception e) {
@@ -318,6 +292,10 @@ public class CadastroUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ButtonCadastrarActionPerformed
 
+    private void ButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_ButtonSairActionPerformed
+
     public void limpar() {
         TFNome.setText("");
         TFEmail.setText("");
@@ -325,7 +303,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
         PFSenha.setText("");
         PFConfSenha.setText("");
         buttonGroup1.clearSelection();
-        FTFDataAdmissao.setText("");
     }
 
     /**
@@ -350,7 +327,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new CadastroUsuario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CadastroFuncionario().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -358,7 +335,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JButton ButtonCancelar;
     private javax.swing.JButton ButtonLimpar;
     private javax.swing.JButton ButtonSair;
-    private javax.swing.JFormattedTextField FTFDataAdmissao;
     private javax.swing.JFormattedTextField FTFTelefone;
     private javax.swing.JPasswordField PFConfSenha;
     private javax.swing.JPasswordField PFSenha;
@@ -375,7 +351,6 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel;
     // End of variables declaration//GEN-END:variables
 }

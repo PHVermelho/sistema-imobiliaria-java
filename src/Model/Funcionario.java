@@ -10,36 +10,35 @@ import java.time.LocalDate;
  *
  * @author Pedro Henrique
  */
-public class Usuario {
-    private int idUsuario;
+public class Funcionario {
+    
+    private int idFuncionario;
     private String nome;
     private String email;
     private String telefone;
     private String senha;
-    private String tipo;
-    private LocalDate dataAdmissao;
+    private String cargo;
     private int idAdministrador;
 
-    public Usuario() {
+    public Funcionario() {
     }
 
-    public Usuario(int id_usuario, String nome, String email, String telefone, String senha, String tipo, LocalDate dataAdmissao) {
-        this.idUsuario = id_usuario;
+    public Funcionario(int idFuncionario, String nome, String email, String telefone, String senha, String cargo, int idAdministrador) {
+        this.idFuncionario = idFuncionario;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
-        this.tipo = tipo;
-        this.dataAdmissao = dataAdmissao;
+        this.cargo = cargo;
         this.idAdministrador = idAdministrador;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public int getIdFuncionario() {
+        return idFuncionario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
     }
 
     public String getNome() {
@@ -74,21 +73,13 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getCargo() {
+        return cargo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
-
-    public LocalDate getDataAdmissao() {
-        return dataAdmissao;
-    }
-
-    public void setDataAdmissao(LocalDate dataAdmissao) {
-        this.dataAdmissao = dataAdmissao;
-    }   
 
     public int getIdAdministrador() {
         return idAdministrador;
@@ -97,4 +88,5 @@ public class Usuario {
     public void setIdAdministrador(int idAdministrador) {
         this.idAdministrador = idAdministrador;
     }
+
 }

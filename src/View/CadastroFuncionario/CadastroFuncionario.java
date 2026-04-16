@@ -19,16 +19,19 @@ public class CadastroFuncionario extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CadastroFuncionario.class.getName());
 
+    FuncionarioDAO dao = new FuncionarioDAO();
+    Funcionario funcionario = new Funcionario();
+
     /**
      * Creates new form CadastroUsuario
      */
     public CadastroFuncionario() {
         initComponents();
-        
+
         // Desabilita redimensionamento (remove botão maximizar)
         setResizable(false);
         // Desabilita o fechamento padrão (remove ação do botão fechar)
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -59,8 +62,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         TFNome = new javax.swing.JTextField();
         ButtonCadastrar = new javax.swing.JButton();
         ButtonLimpar = new javax.swing.JButton();
-        ButtonCancelar = new javax.swing.JButton();
-        ButtonSair = new javax.swing.JButton();
+        ButtonFechar = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -141,12 +143,9 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         ButtonLimpar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         ButtonLimpar.setText("Limpar");
 
-        ButtonCancelar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        ButtonCancelar.setText("Cancelar");
-
-        ButtonSair.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        ButtonSair.setText("Sair");
-        ButtonSair.addActionListener(this::ButtonSairActionPerformed);
+        ButtonFechar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ButtonFechar.setText("Fechar");
+        ButtonFechar.addActionListener(this::ButtonFecharActionPerformed);
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -185,8 +184,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(ButtonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(ButtonLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ButtonSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonFechar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         jPanelLayout.setVerticalGroup(
@@ -207,23 +205,22 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(FTFTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonCancelar))
+                    .addComponent(FTFTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(PFSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ButtonSair))
+                    .addComponent(PFSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(PFConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PFConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ButtonFechar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(RBCorretor)
                     .addComponent(RBAdm))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -249,8 +246,6 @@ public class CadastroFuncionario extends javax.swing.JFrame {
 
     private void ButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCadastrarActionPerformed
 
-        Funcionario funcionario = new Funcionario();
-
         String senha = new String(PFSenha.getPassword());
         String confSenha = new String(PFConfSenha.getPassword());
 
@@ -274,27 +269,36 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             funcionario.setTelefone(FTFTelefone.getText());
             funcionario.setSenha(senha);
 
+            int resp = 0;
+
             if (RBCorretor.isSelected()) {
                 funcionario.setCargo("CORRETOR");
-            } else {
-                funcionario.setCargo("ADMINISTRADOR");
+                cadastrar();
+            } else if (RBAdm.isSelected()) {
+                resp = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar um novo Administrador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (resp == JOptionPane.YES_OPTION) {
+                    funcionario.setCargo("ADMINISTRADOR");
+                    cadastrar();
+                } else if (resp == JOptionPane.NO_OPTION) {
+                    buttonGroup1.clearSelection();
+                }
             }
 
-            FuncionarioDAO dao = new FuncionarioDAO();
-            dao.cadastrarFuncionario(funcionario);
-
-            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
-
-            limpar();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
         }
     }//GEN-LAST:event_ButtonCadastrarActionPerformed
 
-    private void ButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSairActionPerformed
+    private void ButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFecharActionPerformed
         this.dispose();
-    }//GEN-LAST:event_ButtonSairActionPerformed
+    }//GEN-LAST:event_ButtonFecharActionPerformed
+
+    public void cadastrar() {
+        dao.cadastrarFuncionario(funcionario);
+        JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!");
+        limpar();
+    }
 
     public void limpar() {
         TFNome.setText("");
@@ -332,9 +336,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonCadastrar;
-    private javax.swing.JButton ButtonCancelar;
+    private javax.swing.JButton ButtonFechar;
     private javax.swing.JButton ButtonLimpar;
-    private javax.swing.JButton ButtonSair;
     private javax.swing.JFormattedTextField FTFTelefone;
     private javax.swing.JPasswordField PFConfSenha;
     private javax.swing.JPasswordField PFSenha;

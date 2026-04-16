@@ -4,6 +4,9 @@
  */
 package View.Administrador;
 
+import DAO.FuncionarioDAO;
+import DAO.FuncionarioDAO.Sessao;
+import Model.Funcionario;
 import View.CadastroFuncionario.CadastroFuncionario;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -15,8 +18,10 @@ import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -37,17 +42,18 @@ public class Administrador extends javax.swing.JFrame {
 
         Dimension dimension = new Dimension();
         dimension.setSize(800, 300);
-        
+
         layout = new CardLayout();
         painelPrincipal.setLayout(layout);
 
         painelPrincipal.add(spInicial, "inicial");
+        painelPrincipal.add(spBuscaPersonalizadaNome, "buscaPersonalizada");
         painelPrincipal.add(spCorretores, "corretores");
         painelPrincipal.add(spClientes, "clientes");
         painelPrincipal.add(spImoveis, "imoveis");
         painelPrincipal.add(spContratos, "contratos");
         layout.show(painelPrincipal, "inicial");
-        
+
         PainelPrincipal.setSize(990, 700);
         painelPrincipal.setPreferredSize(dimension);
         setSize(new Dimension(1000, 736));
@@ -64,6 +70,8 @@ public class Administrador extends javax.swing.JFrame {
 
         spInicial = new javax.swing.JScrollPane();
         panelInicial = new javax.swing.JPanel();
+        spBuscaPersonalizadaNome = new javax.swing.JScrollPane();
+        tableBuscaPersonalizadaNome = new javax.swing.JTable();
         spCorretores = new javax.swing.JScrollPane();
         tableCorretores = new javax.swing.JTable();
         spClientes = new javax.swing.JScrollPane();
@@ -80,10 +88,11 @@ public class Administrador extends javax.swing.JFrame {
         buttonLContratos = new javax.swing.JButton();
         buttonNovoFuncionario = new javax.swing.JButton();
         painelPrincipal = new javax.swing.JPanel();
-        labelNomeTitulo = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        labelNomeFuncionario = new javax.swing.JLabel();
+        tfBuscarNome = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         buttonSair = new javax.swing.JButton();
+        buttonBuscar = new javax.swing.JButton();
 
         javax.swing.GroupLayout panelInicialLayout = new javax.swing.GroupLayout(panelInicial);
         panelInicial.setLayout(panelInicialLayout);
@@ -98,32 +107,59 @@ public class Administrador extends javax.swing.JFrame {
 
         spInicial.setViewportView(panelInicial);
 
-        tableCorretores.setModel(new javax.swing.table.DefaultTableModel(
+        tableBuscaPersonalizadaNome.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "NOME", "EMAIL", "TELEFONE", "CARGO", "ADMISSAO", "ID ADM"
+                "ID", "NOME", "EMAIL", "TELEFONE", "CARGO", "ID ADM"
+            }
+        ));
+        tableBuscaPersonalizadaNome.setShowGrid(true);
+        spBuscaPersonalizadaNome.setViewportView(tableBuscaPersonalizadaNome);
+
+        tableCorretores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "NOME", "EMAIL", "TELEFONE", "CARGO", "ID ADM"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -194,7 +230,7 @@ public class Administrador extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Bem-vindo Sr. ");
+        jLabel2.setText("Olá,");
 
         buttonLCorretores.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         buttonLCorretores.setText("Lista Corretores");
@@ -226,9 +262,11 @@ public class Administrador extends javax.swing.JFrame {
             .addGap(0, 309, Short.MAX_VALUE)
         );
 
-        labelNomeTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        labelNomeTitulo.setForeground(new java.awt.Color(0, 0, 0));
-        labelNomeTitulo.setText("Administrador");
+        labelNomeFuncionario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        labelNomeFuncionario.setForeground(new java.awt.Color(0, 0, 0));
+        labelNomeFuncionario.setText("Administrador");
+
+        tfBuscarNome.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -237,6 +275,10 @@ public class Administrador extends javax.swing.JFrame {
         buttonSair.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         buttonSair.setText("Sair");
         buttonSair.addActionListener(this::buttonSairActionPerformed);
+
+        buttonBuscar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        buttonBuscar.setText("Buscar");
+        buttonBuscar.addActionListener(this::buttonBuscarActionPerformed);
 
         javax.swing.GroupLayout PainelPrincipalLayout = new javax.swing.GroupLayout(PainelPrincipal);
         PainelPrincipal.setLayout(PainelPrincipalLayout);
@@ -247,33 +289,34 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PainelPrincipalLayout.createSequentialGroup()
                         .addGap(136, 136, 136)
-                        .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNomeTitulo)
-                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                                .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buttonLCorretores, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLImoveis, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonLContratos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                        .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelPrincipalLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(painelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelPrincipalLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelPrincipalLayout.createSequentialGroup()
+                        .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(painelPrincipal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                                .addGap(45, 45, 45)
                                 .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelNomeFuncionario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(buttonNovoFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
-                                .addGap(39, 39, 39)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PainelPrincipalLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 51, Short.MAX_VALUE)))
+                                .addComponent(tfBuscarNome, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(PainelPrincipalLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(buttonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(48, 48, 48))))
         );
         PainelPrincipalLayout.setVerticalGroup(
@@ -283,7 +326,7 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(buttonNovoFuncionario)
-                    .addComponent(labelNomeTitulo))
+                    .addComponent(labelNomeFuncionario))
                 .addGap(62, 62, 62)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonLCorretores)
@@ -292,8 +335,9 @@ public class Administrador extends javax.swing.JFrame {
                     .addComponent(buttonLContratos))
                 .addGap(34, 34, 34)
                 .addGroup(PainelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(tfBuscarNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(buttonBuscar))
                 .addGap(41, 41, 41)
                 .addComponent(painelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
@@ -324,6 +368,24 @@ public class Administrador extends javax.swing.JFrame {
 
     private void buttonLCorretoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLCorretoresActionPerformed
         layout.show(painelPrincipal, "corretores");
+
+        FuncionarioDAO funcDAO = new FuncionarioDAO();
+
+        List<Funcionario> lista = funcDAO.listarCorretoresAdm(Sessao.idAdministrador);
+
+        DefaultTableModel modelo = (DefaultTableModel) tableCorretores.getModel();
+        modelo.setRowCount(0);
+
+        for (Funcionario func : lista) {
+            modelo.addRow(new Object[]{
+                func.getIdFuncionario(),
+                func.getNome(),
+                func.getEmail(),
+                func.getTelefone(),
+                func.getCargo(),
+                func.getIdAdministrador()
+            });
+        }
     }//GEN-LAST:event_buttonLCorretoresActionPerformed
 
     private void buttonLClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLClientesActionPerformed
@@ -346,6 +408,37 @@ public class Administrador extends javax.swing.JFrame {
         CadastroFuncionario cadastroFuncionario = new CadastroFuncionario();
         cadastroFuncionario.setVisible(true);
     }//GEN-LAST:event_buttonNovoFuncionarioActionPerformed
+
+    private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarActionPerformed
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+        DefaultTableModel modelo = (DefaultTableModel) tableBuscaPersonalizadaNome.getModel();
+
+        modelo.setRowCount(0);
+
+        String buscarNome = tfBuscarNome.getText();
+
+        List<Funcionario> lista = funcionarioDAO.listarFuncionarioNome(buscarNome);
+
+        layout.show(painelPrincipal, "buscaPersonalizada");
+
+        modelo.setRowCount(0);
+
+        for (Funcionario func : lista) {
+            modelo.addRow(new Object[]{
+                func.getIdFuncionario(),
+                func.getNome(),
+                func.getEmail(),
+                func.getTelefone(),
+                func.getCargo(),
+                func.getIdAdministrador()
+            });
+        }
+    }//GEN-LAST:event_buttonBuscarActionPerformed
+
+    public void setNomeFuncionario(String nome) {
+        labelNomeFuncionario.setText(nome);
+    }
 
     /**
      * @param args the command line arguments
@@ -374,6 +467,7 @@ public class Administrador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PainelPrincipal;
+    private javax.swing.JButton buttonBuscar;
     private javax.swing.JButton buttonLClientes;
     private javax.swing.JButton buttonLContratos;
     private javax.swing.JButton buttonLCorretores;
@@ -382,18 +476,20 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JButton buttonSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel labelNomeTitulo;
+    public javax.swing.JLabel labelNomeFuncionario;
     private javax.swing.JPanel painelPrincipal;
     private javax.swing.JPanel panelInicial;
+    private javax.swing.JScrollPane spBuscaPersonalizadaNome;
     private javax.swing.JScrollPane spClientes;
     private javax.swing.JScrollPane spContratos;
     private javax.swing.JScrollPane spCorretores;
     private javax.swing.JScrollPane spImoveis;
     private javax.swing.JScrollPane spInicial;
+    private javax.swing.JTable tableBuscaPersonalizadaNome;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTable tableContratos;
     private javax.swing.JTable tableCorretores;
     private javax.swing.JTable tableImoveis;
+    private javax.swing.JTextField tfBuscarNome;
     // End of variables declaration//GEN-END:variables
 }

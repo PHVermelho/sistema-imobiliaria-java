@@ -6,6 +6,7 @@ package View.Login;
 
 import DAO.FuncionarioDAO;
 import Model.Funcionario;
+import View.Administrador.Administrador;
 import javax.swing.JOptionPane;
 
 /**
@@ -151,6 +152,7 @@ public class LoginFuncionario extends javax.swing.JFrame {
     private void ButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEntrarActionPerformed
 
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        
         String email = TFLoginEmail.getText();
         String senha = new String(PFLoginSenha.getPassword());
 
@@ -159,7 +161,8 @@ public class LoginFuncionario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
                 return;
             } else {
-                funcionarioDAO.login(email, senha);
+                Administrador adm = new Administrador();
+                funcionarioDAO.login(email, senha);                
                 this.dispose(); //fechando a tela quando faz login
             }
         } catch (Exception e) {

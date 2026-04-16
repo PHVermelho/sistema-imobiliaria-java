@@ -8,7 +8,7 @@ create table funcionario(
     email varchar(50) not null,
     telefone varchar(20) not null,
     senha varchar(100) not null,
-    tipo enum('ADMINISTRADOR', 'CORRETOR') not null,
+    cargo enum('ADMINISTRADOR', 'CORRETOR') not null,
     id_administrador int,
     foreign key (id_administrador) references funcionario(id_funcionario)
 );
@@ -39,7 +39,7 @@ create table contrato(
 	id_contrato int primary key auto_increment,
     id_funcionario int,
     id_imovel int,
-    id_vendendor int,
+    id_vendedor int,
     id_comprador int,
     tipo enum('VENDA', 'ALUGUEL') not null,
     preco decimal(10,2) not null,
